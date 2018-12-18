@@ -1,0 +1,95 @@
+﻿<div></div>
+
+<script src="../src/questionnaire.js"></script>
+<script>
+
+	var q  = new Questionnaire();
+	var p1 = new Page();
+	var p2 = new Page();
+	var q1 = new Question('What do you do?');
+	var a1 = new AnswerBySingleChoice('Blue Pill');
+	var a2 = new AnswerBySingleChoice('Red Pill');
+
+	q.addPage(p1);
+	q.addPage(p2);
+	p1.addQuestion(q1);
+	q1.addAnswer(a1);
+	q1.addAnswer(a2);
+
+	// BEGIN: Questionnaire events
+
+		// start (before questionnaire starts rendering, can be interrupted when returning false)
+		q.addEventListener('start', function(questionnaire) {
+
+			console.info('Questionnaire start', questionnaire);
+		})
+
+		// pagechanged (after the page has changed, but before Page.shown is invoked)
+		q.addEventListener('pagechanged', function(questionnaire, page) {
+
+			console.info('Page changed', questionnaire, page);
+		})
+
+		// finished (after the last page has been completed, but before the end result is shown, return false to render your own end result)
+		q.addEventListener('finished', function(questionnaire) {
+
+			console.info('Questionnaire finished', questionnaire);
+		})
+
+	// END: Questionnaire events
+
+	// BEGIN: Page events
+
+		// shown (after all render events completed, i.e. all DOM nodes are present)
+		p1.addEventListener('shown', function(page) {
+
+			console.info('Page shown', page);
+		});
+		p2.addEventListener('shown', function(page) {
+
+			console.info('Page shown', page);
+		});
+
+		// next (on button clicked, can be interrupted when returning false)
+		p1.addEventListener('next', function(page) {
+
+			console.info('Next clicked', page);
+		});
+
+		// prev (on button clicked, can be interrupted when returning false)
+		p2.addEventListener('prev', function(page) {
+
+			console.info('Prev clicked', page);
+		});
+
+	// END: Page events
+
+	// BEGIN: Question events
+
+		// answered (after Answer.answered was invoked, i.e. bubbles up)
+		q1.addEventListener('answered', function(question) {
+
+			console.info('Question answered', question);
+		});
+
+	// END: Question events
+
+	// BEGIN: Answer events
+
+		// answered (after an answer has been defined)
+		a1.addEventListener('answered', function(answer) {
+
+			console.info('Answer defined', answer);
+		});
+		a2.addEventListener('answered', function(answer) {
+
+			console.info('Answer defined', answer);
+		});
+
+	// END: Answer events
+
+	q.render(
+		document.getElementsByTagName('div')[0]
+	);
+
+</script>

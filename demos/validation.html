@@ -1,0 +1,67 @@
+﻿<div></div>
+
+<script src="../src/questionnaire.js"></script>
+<script>
+
+	var q  = new Questionnaire();
+	var p1 = new Page();
+	var p2 = new Page();
+
+	// required
+	var q1 = new Question('Dog or Cat?', { required: true });
+	var a1 = new AnswerBySingleChoice('Dog');
+	var a2 = new AnswerBySingleChoice('Cat');
+
+	// min & max (array)
+	var q2 = new Question('Favorite Colors? (1-2 selections)', { min: 1, max: 2 });
+	var a3 = new AnswerByMultipleChoice('Red');
+	var a4 = new AnswerByMultipleChoice('Orange');
+	var a5 = new AnswerByMultipleChoice('Yellow');
+	var a6 = new AnswerByMultipleChoice('Green');
+	var a7 = new AnswerByMultipleChoice('Blue');
+	var a8 = new AnswerByMultipleChoice('Purple');
+	var a9 = new AnswerByMultipleChoice('Pink');
+
+	// callback
+	var q3 = new Question('Enter any odd number:', {
+		callback: function(answer) {
+
+			var number = parseInt(answer, 10);
+			if (isNaN(number)) {
+
+				return 'This is not a number at all.';
+			}
+
+			if ((number % 2) === 0) {
+
+				return 'This is an even number.';
+			}
+
+			return true;
+		}
+	});
+	var h0 = new AnswerHint('1 = odd, 2 = even, 3 = odd, 4 = even, etc.');
+	var a0 = new AnswerByTextInput();
+
+	q.addPage(p1);
+	q.addPage(p2);
+	p1.addQuestion(q1);
+	q1.addAnswer(a1);
+	q1.addAnswer(a2);
+	p1.addQuestion(q2);
+	q2.addAnswer(a3);
+	q2.addAnswer(a4);
+	q2.addAnswer(a5);
+	q2.addAnswer(a6);
+	q2.addAnswer(a7);
+	q2.addAnswer(a8);
+	q2.addAnswer(a9);
+	p1.addQuestion(q3);
+	q3.addAnswer(h0);
+	q3.addAnswer(a0);
+
+	q.render(
+		document.getElementsByTagName('div')[0]
+	);
+
+</script>
